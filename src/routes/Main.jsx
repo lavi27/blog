@@ -1,6 +1,10 @@
 import '../style/pageStyle/Main.scss';
 
 function App() {
+function getPosts() {
+  
+}
+
 return (
   <main>
     <div>
