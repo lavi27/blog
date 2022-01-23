@@ -19,9 +19,10 @@ const db = mysql.createConnection({
 
 db.connect();
 
-// let sql = '';
-// conn.query(sql, (err, rows, fields)=>{
-// });
+// const encrypted = bcrypt.hashSync("sadsdf", 4);
+
+// const issame = bcrypt.compareSync("sadsdf", encrypted);
+// console.log(issame); true
 
 var app = express();
 app.use(cors());
@@ -32,6 +33,10 @@ app.get('/', (req, res)=>{ res.sendFile(__dirname, '../build/index.html') });
 
 app.get('/api/profile/:imgname', (req, res)=>{
     res.json()
+});
+
+app.get('/api/test', (req, res)=>{
+    res.json({"sex" : "하고싶다."})
 });
 
 app.post('/api/customers', upload.single('image'), (req, res)=>{
@@ -45,9 +50,3 @@ app.post('/api/customers', upload.single('image'), (req, res)=>{
 })
 
 app.listen(3030, console.log("서버 실행중"));
-
-
-// bcrypt.genSalt(saltRounds, (err, salt)=>{
-//     bcrypt.hash(myPlaintextPassword, salt, (err, hash)=>{
-//     });
-// });
