@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 function App() {
 return (
+<>
     <header>
         <div className='headerInner'>
             <div>
@@ -19,6 +20,7 @@ return (
             </nav>
         </div>
     </header>
+</>
 );
 }
 
