@@ -6,6 +6,7 @@ import Main from './routes/Main';
 import Search from './routes/Search';
 import Signin from './routes/Signin';
 import Signup from './routes/Signup';
+import Test from './routes/Test';
 
 function App() {
 return (
@@ -14,8 +15,9 @@ return (
     <Routes>
         <Route path="/" element={<Main />} exact />
         <Route path="/search" element={<Search />} />
-        <Route path="/Signin" element={<Signin />} />
-        <Route path="/Signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/test" element={<Test />} />
     </Routes>
 </>
 );

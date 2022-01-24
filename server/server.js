@@ -5,8 +5,25 @@ import cors from 'cors';
 import multer from 'multer';
 import path from 'path';
 import bcrypt from 'bcrypt';
+import sharp from 'sharp';
 
-const upload = multer({ dist: './upload'});
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, __dirname + "/upload/");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}_${file.originalname}`);
+    },
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        if(ext !== '.png' || ext !== '.jpg'){
+            return cb(res.status(400).end('only png, jpg are allowed'), false);
+        } 
+        cb(null, true);
+    }
+});
+
+const upload = multer({ storage: storage }).single("file");
 
 const config = iniparser.parseSync('server/config.ini');
 
@@ -38,7 +55,24 @@ app.get('/api/main', (res)=>{
 
 // let issame = bcrypt.compareSync("sadsdf", encrypted); true, false
 
-app.get('/api/customers', upload.single('image'), (req, res)=>{ //req.body.user_name
+// sharp("example-image.jpg")
+//     .resize({ width: 500, height: 450 })
+//     .toFormat("png")
+//     .png({ quality: 100 })
+//     .toFile("output.png")
+//     .catch((err) => console.warn(err));
+
+app.post('/test', (req, res)=>{
+    upload(req, res, (err) => {
+        if (err) {
+            return res.json({success: false});
+        } else {
+            return res.json({success: true});
+        }
+    });
+});
+
+app.get('/api/customers', (req, res)=>{ //req.body.user_name
     let sql = 'INSERT INTO user (id, pw, profileImg) VALUES (null, ?, ?)';
     let id = 'asd';
     let encrypted = bcrypt.hashSync("sadsdf", 2);
