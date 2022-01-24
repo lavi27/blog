@@ -1,9 +1,9 @@
 import express from 'express';
-import path from 'path';
 import iniparser from 'iniparser';
 import mysql from 'mysql';
 import cors from 'cors';
 import multer from 'multer';
+import path from 'path';
 import bcrypt from 'bcrypt';
 
 const upload = multer({ dist: './upload'});
@@ -19,32 +19,33 @@ const db = mysql.createConnection({
 
 db.connect();
 
-// const encrypted = bcrypt.hashSync("sadsdf", 4);
-
-// const issame = bcrypt.compareSync("sadsdf", encrypted);
-// console.log(issame); true
-
-var app = express();
+const app = express();
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../build')))
-app.use('/profile', express.static('./upload'));
+app.use('/userImg', express.static(__dirname + '/upload/user'));
+app.use('/postImg', express.static(__dirname + '/upload/post'));
+app.use('/build', express.static(path.join(__dirname, '../build')));
 
-app.get('/', (req, res)=>{ res.sendFile(__dirname, '../build/index.html') });
+app.get('/', (res)=>{ res.sendFile('/build/index.html') });
 
-app.get('/api/profile/:imgname', (req, res)=>{
-    res.json()
+app.get('/info', (res)=>{ res.sendFile(__dirname + "/index.html") });
+
+app.get('/api/main', (res)=>{
+    let sql = 'SELECT title, content, imgPath FROM post ORDER BY postNum DESC limit 10;';
+    db.query(sql, (err, rows, fields)=>{
+        res.json({ 'data': rows })
+    });
 });
 
-app.get('/api/test', (req, res)=>{
-    res.json({"sex" : "하고싶다."})
-});
+// let issame = bcrypt.compareSync("sadsdf", encrypted); true, false
 
-app.post('/api/customers', upload.single('image'), (req, res)=>{
+app.get('/api/customers', upload.single('image'), (req, res)=>{ //req.body.user_name
     let sql = 'INSERT INTO user (id, pw, profileImg) VALUES (null, ?, ?)';
-    let img = '/image/' + req.file.filename;
     let id = 'asd';
-    let params = [img, id, "asd"];
-    conn.query(sql, params, (err, rows, fields)=>{
+    let encrypted = bcrypt.hashSync("sadsdf", 2);
+    let pw = encrypted;
+    let img = '/userImg/' + req.file.filename;
+    let params = [id, pw, img];
+    db.query(sql, params, (err, rows, fields)=>{
         res.send(rows);
     });
 })
