@@ -1,23 +1,28 @@
 import express from 'express';
-import iniparser from 'iniparser';
 import mysql from 'mysql';
-import cors from 'cors';
-import multer from 'multer';
 import path from 'path';
+import fs from 'fs';
+import iniparser from 'iniparser';
+import cors from 'cors';
 import bcrypt from 'bcrypt';
+import multer from 'multer';
 import sharp from 'sharp';
+
+fs.readdir(__dirname + "/upload", (err)=>{
+    if (err) { fs.mkdirSync(__dirname + "/upload") }
+});
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, __dirname + "/upload/");
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}_${file.originalname}`);
+        cb(null, `${Date.now()}`);
     },
     fileFilter: (req, file, cb) => {
         const ext = path.extname(file.originalname);
         if(ext !== '.png' || ext !== '.jpg'){
-            return cb(res.status(400).end('only png, jpg are allowed'), false);
+            return cb(res.status(400).end('오직 png, jpg 형식 파일만 허용됨.'), false);
         } 
         cb(null, true);
     }
@@ -49,7 +54,7 @@ app.get('/info', (res)=>{ res.sendFile(__dirname + "/index.html") });
 app.get('/api/main', (res)=>{
     let sql = 'SELECT title, content, imgPath FROM post ORDER BY postNum DESC limit 10;';
     db.query(sql, (err, rows, fields)=>{
-        res.json({ 'data': rows })
+        return res.json({ 'data': rows })
     });
 });
 
@@ -63,16 +68,27 @@ app.get('/api/main', (res)=>{
 //     .catch((err) => console.warn(err));
 
 app.post('/test', (req, res)=>{
-    upload(req, res, (err) => {
-        if (err) {
-            return res.json({success: false});
-        } else {
-            return res.json({success: true});
-        }
-    });
+    upload(req, res, (err)=>{
+        if (err) res.json({success: false});
+        try {
+            sharp(req.file.path)
+                .resize({width:200})
+                .withMetadata()
+                .toFormat("webp")
+                .toFile(__dirname + '/upload/post/' + Date.now() + '.webp', (err, info)=>{
+                    if(err) res.json({success: false})
+
+                    fs.unlink(req.file.path, (err)=>{
+                        if(err) res.json({success: false})
+                        return res.json({success: true});
+                    })
+                })
+
+        } catch(err) { res.json({success: false}) }
+    })
 });
 
-app.get('/api/customers', (req, res)=>{ //req.body.user_name
+app.get('/api/customers', (req, res)=>{
     let sql = 'INSERT INTO user (id, pw, profileImg) VALUES (null, ?, ?)';
     let id = 'asd';
     let encrypted = bcrypt.hashSync("sadsdf", 2);
