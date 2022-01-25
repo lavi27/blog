@@ -9,7 +9,6 @@ function App() {
 
         fetch("http://localhost:3030/test", {method: 'post', body: formData})
             .then((response) => response.json())
-            .then((data) => data.success)
             .then((data) => console.log(data))
             .catch(error => console.error(error))
     }
