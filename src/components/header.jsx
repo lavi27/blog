@@ -8,7 +8,7 @@ return (
         <div className='headerInner'>
             <div>
                 <Link to="/">
-                    <img src={logo} />
+                    <img src={logo} alt='logo' />
                     <h3>Blog</h3>
                 </Link>
             </div>
