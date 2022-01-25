@@ -21,7 +21,7 @@ function App() {
     let title = "loading";
     let content = "loading";
     let imgPath = "";
-    if (value != undefined) {
+    if (value !== undefined) {
       title = value.title;
       content = value.content;
       imgPath = "http://localhost:3030/postImg/" + value.imgPath + ".webp";
@@ -29,7 +29,7 @@ function App() {
     return(
       <section>
         <div className='content'>
-          <img src={(value == undefined) ? postImg : imgPath} />
+          <img src={(value === undefined) ? postImg : imgPath} alt='postImg' />
           <div>
             <h1>{title}</h1>
             <p>{content}</p>
@@ -37,11 +37,11 @@ function App() {
         </div>
         <div className='likeBtns'>
           <div className='like'>
-            <i class="bi bi-hand-thumbs-up"></i>
+            <i className="bi bi-hand-thumbs-up"></i>
             <span>0</span>
           </div>
           <div className='dislike'>
-            <i class="bi bi-hand-thumbs-down"></i>
+            <i className="bi bi-hand-thumbs-down"></i>
             <span>0</span>
           </div>
         </div>
