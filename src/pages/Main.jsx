@@ -17,24 +17,20 @@ function Main() {
 
   function Post(props) {
     let value = postData[props.num];
-    let title = "loading";
-    let content = "";
-    let imgPath = "";
-    let like = "0";
-    let dislike = "0";
-    let uploadDate = "loading";
-    let postNum = "";
-    if (value !== undefined) {
+    let title = "loading", uploadDate = "loading";
+    let content = "", imgPath = "", postNum = "";
+    let like = "0", dislike = "0";
+    if (value !== undefined) { //나중에 축약해서 수정
       title = value.title;
       content = value.content;
       imgPath = "http://localhost:3030/postImg/" + value.imgPath + ".webp";
       like = value.likeCount;
       dislike = value.dislikeCount;
       uploadDate = value.uploadDate;
-      postNum = `/post/${value.postNum}`;
+      postNum = value.postNum;
     }
     return(
-      <a href={postNum}>
+      <a href={(value === undefined) ? "" : `/post/${value.postNum}`}>
         <section>
           <div className={style.content}>
             <img src={(value === undefined) ? postImg : imgPath} alt='' />
