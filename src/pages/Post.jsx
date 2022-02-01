@@ -6,6 +6,8 @@ import style from '../style/pageStyle/Post.module.scss';
 function Post() {
     const { postNum } = useParams();
     const [postData, changepostData] = useState("");
+    const [likeIsClick, changelikeClick] = useState(false);
+    const [dislikeIsClick, changedisdislikeClick] = useState(false);
 
     function getPost() {
         fetch(`http://localhost:3030/api/post/${postNum}`)
@@ -35,13 +37,19 @@ function Post() {
     return (
         <main className={style.main}>
             <div className={style.topContents}>
-                <img src={(postData === undefined) ? postImg : imgPath} alt='' />
-                <h1>{title}</h1>
-                <p>{uploadDate}</p>
-                <span>{like}</span>
-                <span>{dislike}</span>
+                <div className={style.info}>
+                    <h1>{title}</h1>
+                    <p>{uploadDate}</p>
+                </div>
             </div>
+            <img src={(postData === undefined) ? postImg : imgPath} alt='' />
+            
             <div className={style.content}>{content}</div>
+
+            <div className={style.like}>
+                <span className={style.likeBtn}>    <i className={`bi bi-hand-thumbs-up${   (likeIsClick===true) ? "-fill" : ""}`}      onClick={()=>changelikeClick(!likeIsClick)}></i>            {like}</span>
+                <span className={style.dislikeBtn}> <i className={`bi bi-hand-thumbs-down${ (dislikeIsClick===true) ? "-fill" : ""}`}   onClick={()=>changedisdislikeClick(!dislikeIsClick)}></i>   {dislike}</span>
+            </div>
         </main>
     );
 }
