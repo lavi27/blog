@@ -1,12 +1,14 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import './style/style.scss';
 import Header from './components/header';
-import Main from './routes/Main';
-import Search from './routes/Search';
-import Signin from './routes/Signin';
-import Signup from './routes/Signup';
-import Test from './routes/Test';
+// import { Main, Search, Signin, Signup, Post, Test } from './pages';
+import Main from './pages/Main';
+import Search from './pages/Search';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
+import Post from './pages/Post';
+import Test from './pages/Test';
+import './style/style.scss';
 
 function App() {
 return (
@@ -17,6 +19,7 @@ return (
         <Route path="/search" element={<Search />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/post/:postNum" element={<Post />} />
         <Route path="/test" element={<Test />} />
     </Routes>
 </>
