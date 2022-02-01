@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import postImg from '../res/img/postImg.png';
-// import '../style/pageStyle/Post.scss';
+import style from '../style/pageStyle/Post.module.scss';
 
 function Post() {
     const { postNum } = useParams();
@@ -33,15 +33,15 @@ function Post() {
     }
 
     return (
-        <main>
-            <div className='topContents'>
+        <main className={style.main}>
+            <div className={style.topContents}>
                 <img src={(postData === undefined) ? postImg : imgPath} alt='' />
                 <h1>{title}</h1>
                 <p>{uploadDate}</p>
                 <span>{like}</span>
                 <span>{dislike}</span>
             </div>
-            <div className='content'>{content}</div>
+            <div className={style.content}>{content}</div>
         </main>
     );
 }

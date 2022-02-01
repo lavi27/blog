@@ -1,5 +1,5 @@
-import '../style/pageStyle/Signin.scss';
 import React, { useState } from 'react';
+import style from '../style/pageStyle/Signin.module.scss';
 
 function Signin() {
     const [id, changeId] = useState("");

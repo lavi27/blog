@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import postImg from '../res/img/postImg.png';
-import '../style/pageStyle/Main.scss';
+import style from '../style/pageStyle/Main.module.scss';
 
 function Main() {
   const [postData, changepostData] = useState("");
@@ -36,25 +36,25 @@ function Main() {
     return(
       <a href={postNum}>
         <section>
-          <div className='content'>
+          <div className={style.content}>
             <img src={(value === undefined) ? postImg : imgPath} alt='' />
             <div>
               <h1>{title}</h1>
               <p>{content}</p>
             </div>
           </div>
-          <div className='rightUi'>
-            <div className='likeBtns'>
-              <div className='like'>
+          <div className={style.rightUi}>
+            <div className={style.likeBtns}>
+              <div className={style.like}>
                 <i className="bi bi-hand-thumbs-up"></i>
                 <span>{like}</span>
               </div>
-              <div className='dislike'>
+              <div className={style.dislike}>
                 <i className="bi bi-hand-thumbs-down"></i>
                 <span>{dislike}</span>
               </div>
             </div>
-            <p className='uploadTime'>{uploadDate}</p>
+            <p className={style.uploadTime}>{uploadDate}</p>
           </div>
         </section>
       </a>
@@ -79,7 +79,7 @@ function Main() {
   }
 
   return (
-    <main>
+    <main className={style.main}>
       <Posts />
     </main>
   );
