@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-function App() {
+function Test() {
     const [file, changeFile] = useState();
 
     function submit() {
@@ -24,4 +24,4 @@ function App() {
     );
 }
 
-export default App;
+export default Test;
