@@ -1,0 +1,21 @@
+main {
+    max-width: 1000px;
+    height: 80px;
+    margin: 0px auto;
+    padding: 0px 30px;
+
+    .topContents {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        img {
+            width: 120px;
+            height: 70px;
+        }
+    }
+}
+
+.content {
+    height: 50vh;
+}
