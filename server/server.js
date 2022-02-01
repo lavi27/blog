@@ -41,33 +41,7 @@ const db = mysql.createConnection({
 
 db.connect();
 
-const app = express();
-app.use(cors());
-app.use('/userImg', express.static(__dirname + '/upload/user'));
-app.use('/postImg', express.static(__dirname + '/upload/post'));
-app.use('/build', express.static(path.join(__dirname, '../build')));
-
-app.get('/', (res)=>{ res.sendFile('/build/index.html') });
-
-app.get('/info', (res)=>{ res.sendFile(__dirname + "/index.html") });
-
-app.get('/api/main', (res)=>{
-    let sql = 'SELECT title, content, imgPath FROM post ORDER BY postNum DESC limit 10;';
-    db.query(sql, (err, rows, fields)=>{
-        return res.json({ 'data': rows })
-    });
-});
-
-// let issame = bcrypt.compareSync("sadsdf", encrypted); true, false
-
-// sharp("example-image.jpg")
-//     .resize({ width: 500, height: 450 })
-//     .toFormat("png")
-//     .png({ quality: 100 })
-//     .toFile("output.png")
-//     .catch((err) => console.warn(err));
-
-app.post('/test', (req, res)=>{
+function saveFile(req, res) {
     upload(req, res, (err)=>{
         if (err) res.json({success: false});
         try {
@@ -80,12 +54,49 @@ app.post('/test', (req, res)=>{
 
                     fs.unlink(req.file.path, (err)=>{
                         if(err) res.json({success: false})
-                        return res.json({success: true});
+                        res.json({success: true});
                     })
                 })
 
         } catch(err) { res.json({success: false}) }
     })
+}
+
+// let issame = bcrypt.compareSync("sadsdf", encrypted); true, false
+
+const app = express();
+app.use(cors());
+app.use('/userImg', express.static(__dirname + '/upload/user'));
+app.use('/postImg', express.static(__dirname + '/upload/post'));
+app.use('/build', express.static(path.join(__dirname, '../build')));
+
+// app.get('/', (req, res)=>{ res.sendFile(__dirname + '../build/index.html') });
+
+app.post('/test', (req, res)=>{ saveFile(req, res); });
+
+app.get('/info', (req, res)=>{ res.sendFile(__dirname + "/index.html") });
+
+app.get('/api/main', (req, res)=>{
+    let sql = 'select postNum, title, content, imgPath, likeCount, dislikeCount, DATE_FORMAT(uploadDate, "%Y-%m-%d") AS "uploadDate" FROM post ORDER BY postNum DESC limit 10;';
+    db.query(sql, (err, rows, fields)=>{
+        res.json({data: rows});
+    });
+});
+
+app.get('/api/post/:postNum', (req, res)=>{
+    let sql = `select title, content, imgPath, likeCount, dislikeCount, DATE_FORMAT(uploadDate, "%Y-%m-%d") AS "uploadDate" FROM post WHERE postNum = ${req.params.postNum};`;
+    db.query(sql, (err, rows, fields)=>{
+        res.json({data: rows});
+    });
+});
+
+app.post('/api/signin', (req, res)=>{
+    console.log(res);
+    // let sql = `SELECT EXISTS (SELECT id FROM user WHERE id=${a} pw=${sdfgdrfhtj} limit 1) as success;`;
+
+    // db.query(sql, (err, rows, fields)=>{
+    //     res.json({data: rows});
+    // });
 });
 
 app.get('/api/customers', (req, res)=>{
