@@ -15,7 +15,6 @@ return (
             </div>
             <nav>
                 <Link to="/">home</Link>
-                <Link to="/search">search</Link>
                 <Link to="/signin">sign in</Link>
                 <Link to="/signup">sign up</Link>
             </nav>
