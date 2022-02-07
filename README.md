@@ -18,7 +18,7 @@ Backend : express
 
 DB : mysql
 
-Etc : axios, bcryptjs, multer, sharp
+Etc : netlify, heroku
 
 ## Credit
 [@라비](https://github.com/lavi27)
