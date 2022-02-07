@@ -15,24 +15,6 @@ fs.readdir(__dirname + "/upload", (err) => {
     if (err) fs.mkdirSync(__dirname + "/upload")
 });
 
-let storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, __dirname + "/upload/");
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}`);
-    },
-    fileFilter: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        if(ext !== '.png' || ext !== '.jpg'){
-            return cb(res.status(400).end('오직 png, jpg 형식 파일만 허용됨.'), false);
-        } 
-        cb(null, true);
-    }
-});
-
-const upload = multer({ storage: storage }).single("file");
-
 const env = process.env;
 
 const db = mysql.createConnection({
@@ -53,6 +35,24 @@ const options = {
 };
 
 const sessionStore = new MySQLStore(options);
+
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, __dirname + "/upload/");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}`);
+    },
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        if(ext !== '.png' || ext !== '.jpg'){
+            return cb(res.status(400).end('오직 png, jpg 형식 파일만 허용됨.'), false);
+        } 
+        cb(null, true);
+    }
+});
+
+const upload = multer({ storage: storage }).single("file");
 
 function saveFile(req, res) {
     upload(req, res, (err)=>{
