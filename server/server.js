@@ -2,14 +2,17 @@ import express from 'express';
 import mysql from 'mysql';
 import path from 'path';
 import fs from 'fs';
-import iniparser from 'iniparser';
 import cors from 'cors';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import multer from 'multer';
 import sharp from 'sharp';
+import bodyParser from 'body-parser';
+import session from 'express-session';
+require('dotenv').config();
+const MySQLStore = require('express-mysql-session')(session);
 
-fs.readdir(__dirname + "/upload", (err)=>{
-    if (err) { fs.mkdirSync(__dirname + "/upload") }
+fs.readdir(__dirname + "/upload", (err) => {
+    if (err) fs.mkdirSync(__dirname + "/upload")
 });
 
 let storage = multer.diskStorage({
@@ -30,16 +33,26 @@ let storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single("file");
 
-const config = iniparser.parseSync('server/config.ini');
+const env = process.env;
 
 const db = mysql.createConnection({
-    host : config.db.host,  
-    user : config.db.user,
-    password : config.db.pw,
-    database : config.db.db
+    host : env.DB_HOST,  
+    user : env.DB_USER,
+    password : env.DB_PW,
+    database : env.DB_DB
 });
 
 db.connect();
+
+const options = {
+    host: env.DB_HOST,
+    port: 3306,
+    user: env.DB_USER,
+    password: env.DB_PW,
+    database: env.DB_DB
+};
+
+const sessionStore = new MySQLStore(options);
 
 function saveFile(req, res) {
     upload(req, res, (err)=>{
@@ -62,24 +75,65 @@ function saveFile(req, res) {
     })
 }
 
-// let issame = bcrypt.compareSync("sadsdf", encrypted); true, false
-
 const app = express();
-app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
+
+app.use(session({
+    secret: env.SECRETKEY,
+    resave: false,
+    saveUninitialized: true,
+    store: sessionStore
+}));
+
 app.use('/userImg', express.static(__dirname + '/upload/user'));
 app.use('/postImg', express.static(__dirname + '/upload/post'));
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
-// app.get('/', (req, res)=>{ res.sendFile(__dirname + '../build/index.html') });
-
-app.post('/test', (req, res)=>{ saveFile(req, res); });
+// app.post('/test', (req, res)=>{ saveFile(req, res); });
 
 app.get('/info', (req, res)=>{ res.sendFile(__dirname + "/index.html") });
+
+app.get('/api/logging', (req, res)=>{
+    console.log(req.sessionID)
+    if (req.session.logging === true) {
+        res.json({ logging: true });
+    } else {
+        res.json({ logging: false });
+    }
+});
+
+app.post('/api/signin', (req, res)=>{
+    let sql = `select pw FROM user where id='${req.body.id}'limit 1;`;
+    db.query(sql, (err, rows, fields)=>{
+        let result;
+        if (rows[0] !== undefined) {
+            result = bcrypt.compareSync(req.body.pw, rows[0].pw);
+            if (result === true) {
+                req.session.logging = true;
+            }
+        } else {
+            result = false;
+        }
+        res.json({success: result});
+    });
+});
+
+app.post('/api/signOut', (req, res)=>{
+    console.log(req.sessionID)
+    req.session.logging = false;
+    res.json({success: true});
+});
 
 app.get('/api/main', (req, res)=>{
     let sql = 'select postNum, title, content, imgPath, likeCount, dislikeCount, DATE_FORMAT(uploadDate, "%Y-%m-%d") AS "uploadDate" FROM post ORDER BY postNum DESC limit 10;';
     db.query(sql, (err, rows, fields)=>{
-        res.json({data: rows});
+        res.json({ data: rows });
     });
 });
 
@@ -88,15 +142,6 @@ app.get('/api/post/:postNum', (req, res)=>{
     db.query(sql, (err, rows, fields)=>{
         res.json({data: rows});
     });
-});
-
-app.post('/api/signin', (req, res)=>{
-    console.log(res);
-    // let sql = `SELECT EXISTS (SELECT id FROM user WHERE id=${a} pw=${sdfgdrfhtj} limit 1) as success;`;
-
-    // db.query(sql, (err, rows, fields)=>{
-    //     res.json({data: rows});
-    // });
 });
 
 app.get('/api/customers', (req, res)=>{
@@ -111,4 +156,4 @@ app.get('/api/customers', (req, res)=>{
     });
 })
 
-app.listen(3030, console.log("서버 실행중"));
+app.listen(3030, console.log("http://localhost:3030/ 에서 실행중"));
