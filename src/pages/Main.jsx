@@ -8,8 +8,7 @@ function Main() {
   function getPosts() {
     fetch("http://localhost:3030/api/main")
       .then((response) => response.json())
-      .then((data) => data.data)
-      .then((data) => changepostData(data))
+      .then((data) => changepostData(data.data))
       .catch(error => console.error(error))
   }
 
