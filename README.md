@@ -10,11 +10,13 @@ react, express, mysql을 이용했으며, CRUD 연습작입니다.
 - Search
 
 ## Tools
-Frontend:
+Frontend : react, bootstrap
 
-Backend:
+Backend : express
 
-Etc:
+DB : mysql
+
+Etc : axios, bcryptjs, multer, sharp
 
 ## Credit
 [@라비](https://github.com/lavi27)
