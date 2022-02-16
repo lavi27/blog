@@ -6,7 +6,7 @@ function Main() {
   const [postData, changepostData] = useState("");
 
   function getPosts() {
-    fetch("http://localhost:3030/api/main")
+    fetch("http://lavi-blog.kro.kr:3030/api/main")
       .then((response) => response.json())
       .then((data) => changepostData(data.data))
       .catch(error => console.error(error))

@@ -7,7 +7,7 @@ function Test() {
         const formData = new FormData();
         formData.append("file", file);
 
-        fetch("http://localhost:3030/test", {method: 'post', body: formData})
+        fetch("http://lavi-blog.kro.kr:3030/test", {method: 'post', body: formData})
             .then((response) => response.json())
             .then((data) => console.log(data))
             .catch(error => console.error(error))

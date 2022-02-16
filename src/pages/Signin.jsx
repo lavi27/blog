@@ -10,7 +10,7 @@ function Signin() {
     const navigate = useNavigate();
 
     function submit() {
-        axios.post("http://localhost:3030/api/signin", { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.post("http://lavi-blog.kro.kr:3030/api/signin", { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => {
                 if (data.success === false) {

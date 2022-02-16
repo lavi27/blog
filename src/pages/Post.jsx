@@ -10,7 +10,7 @@ function Post() {
     const [dislikeIsClick, changedisdislikeClick] = useState(false);
 
     function getPost() {
-        fetch(`http://localhost:3030/api/post/${postNum}`)
+        fetch(`http://lavi-blog.kro.kr:3030/api/post/${postNum}`)
             .then((response) => response.json())
             .then((data) => data.data)
             .then((data) => changepostData(data[0]))
