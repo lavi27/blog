@@ -6,6 +6,12 @@
     gap: 20px;
     height: calc(100% - 80px);
 
+    h1 {
+        font-size: 35px;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
     div {
         display: flex;
         flex-direction: column;

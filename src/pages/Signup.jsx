@@ -22,6 +22,7 @@ function Signup() {
 
     return (
         <main className={style.main}>
+            <h1>회원가입</h1>
             <div>
                 <label htmlFor='id'>아이디</label>
                 <input onChange={ (e)=>{changeId(e.target.value)} } type='text' id='id' name='id'></input>
