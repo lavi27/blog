@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 import style from '../style/pageStyle/Signin.module.scss';
 
 function Signin() {
     const [id, changeId] = useState("");
     const [pw, changePw] = useState("");
     const [signinCurrect, changeSigninCurrect] = useState(false);
-    const navigate = useNavigate();
 
     function submit() {
         axios.post("http://lavi-blog.kro.kr:3030/api/signin", { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
@@ -16,7 +14,7 @@ function Signin() {
                 if (data.success === false) {
                     changeSigninCurrect(true);
                 } else {
-                    navigate("/");
+                    window.location.replace("/");
                 };
             })
             .catch(error => console.error(error))
@@ -24,6 +22,7 @@ function Signin() {
 
     return (
         <main className={style.main}>
+            <h1>로그인</h1>
             <div>
                 <label htmlFor='id'>아이디</label>
                 <input onChange={ (e)=>{changeId(e.target.value)} } type='text' id='id' name='id'></input>
