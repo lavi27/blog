@@ -28,7 +28,7 @@ function Post() {
     if (postData !== undefined) {
         title = postData.title;
         content = postData.content;
-        imgPath = "http://localhost:3030/postImg/" + postData.imgPath + ".webp";
+        imgPath = "http://lavi-blog.kro.kr:3030/postImg/" + postData.imgPath + ".webp";
         like = postData.likeCount;
         dislike = postData.dislikeCount;
         uploadDate = postData.uploadDate;
