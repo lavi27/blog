@@ -1,0 +1,36 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: calc(100% - 80px);
+
+    div {
+        display: flex;
+        flex-direction: column;
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 200px;
+            border-radius: 8px;
+            border: 1px solid #bbb;
+            padding: 8px;
+            font-size: 15px;
+        }
+    }
+
+    .submit {
+        width: calc(200px + 16px + 2px);
+        border-radius: 8px;
+        padding: 10px 8px;
+        font-size: 15px;
+        border: 1px solid rgb(42, 134, 255);
+        background: rgb(42, 134, 255);
+        color: #fff;
+        margin-top: 10px;
+    }
+}
