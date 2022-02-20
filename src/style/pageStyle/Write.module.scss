@@ -14,14 +14,16 @@
 
         .info {
             width: 100%;
+            display: flex;
+            flex-direction: column;
 
-            h1 {
+            .title {
                 font-weight: 500;
                 font-size: 20px;
                 margin-bottom: 10px;
             }
 
-            p {
+            .uploadDate {
                 font-size: 13px;
             }
         }
@@ -40,32 +42,19 @@
         margin: 30px 0px;
         border-radius: 10px;
     }
-}
 
-.content {
-    font-size: 15px;
-}
-
-.like {
-    display: flex;
-    justify-content: space-between;
-    gap: 40px;
-    background: #f8f8f8;
-    box-shadow: 0px 0px 15px #0000001f;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 30px auto 0px auto;
-    width: fit-content;
-
-    span {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 20px;
-
-        i {
-            font-size: 40px;
-            display: block;
-        }
+    .content {
+        font-size: 15px;
+    }
+    
+    .postBtn {
+        font-size: 15px;
+        padding: 12px 15px;
+        width: fit-content;
+        background: #1d7fff;
+        border-radius: 10px;
+        border: none;
+        margin: 30px 0px 0px auto;
+        color: #fff;
     }
 }
