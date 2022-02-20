@@ -5,14 +5,14 @@ import style from '../style/pageStyle/Signup.module.scss';
 function Signup() {
     const [id, changeId] = useState("");
     const [pw, changePw] = useState("");
-    const [signinCurrect, changeSigninCurrect] = useState(false);
+    const [isSignup, changeIsSignup] = useState(false);
 
     function submit() {
-        axios.post("http://lavi-blog.kro.kr:3030/api/signin", { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.post("http://lavi-blog.kro.kr:3030/api/signup", { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => {
                 if (data.success === false) {
-                    changeSigninCurrect(true);
+                    changeIsSignup(true);
                 } else {
                     window.location.replace("/");
                 };
@@ -32,7 +32,7 @@ function Signup() {
                 <input onChange={ (e)=>{changePw(e.target.value)} } type='text' id='pw' name='pw'></input>
             </div>
             <input className={style.submit} type='submit' value='로그인' onClick={ submit }></input>
-            {(signinCurrect === true) ? <p>아이디 또는 비밀번호가 일치하지 않습니다.</p> : null}
+            {(isSignup === true) ? <p>아이디가 이미 존재합니다.</p> : null}
         </main>
     );
 }
