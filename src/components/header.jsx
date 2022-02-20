@@ -34,7 +34,7 @@ function App() {
         } else {
             return(
                 <>
-                    <Link to="/user" className='user'><img src={`http://lavi-blog.kro.kr:3030/userImg/${headerInfo.profileImg}.webp`}></img>{headerInfo.id}</Link>
+                    <Link to="/user" className='user'><img src={(headerInfo.profileImg === undefined) ? "" : `http://lavi-blog.kro.kr:3030/userImg/${headerInfo.profileImg}.webp`}></img>{headerInfo.id}</Link>
                     <Link to="/">home</Link>
                     <Link to="/write">write</Link>
                     <a onClick={ signOut }>sign out</a>
