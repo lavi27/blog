@@ -22,7 +22,7 @@ function Main() {
     if (value !== undefined) { //나중에 축약해서 수정
       title = value.title;
       content = value.content;
-      imgPath = "http://lavi-blog.kro.kr:3030/postImg/" + value.imgPath + ".webp";
+      imgPath = `http://lavi-blog.kro.kr:3030/postImg/${value.imgPath}.webp`;
       like = value.likeCount;
       dislike = value.dislikeCount;
       uploadDate = value.uploadDate;
