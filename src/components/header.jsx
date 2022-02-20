@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import logo from '../res/img/logo.svg';
-import style from '../style/header.scss';
+import '../style/header.scss';
 
 function App() {
-    const [logging, changeLogging] = useState("");
+    const [headerInfo, changeHeaderInfo] = useState("");
 
     function getLogging() {
-        axios.get("http://lavi-blog.kro.kr:3030/api/logging", {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.get("http://lavi-blog.kro.kr:3030/api/headerInfo", {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
-            .then((data) => changeLogging(data.logging))
+            .then((data) => changeHeaderInfo(data))
             .catch(error => console.error(error))
     }
 
@@ -23,9 +23,10 @@ function App() {
     useEffect(()=>{getLogging()}, []);
 
     function SigninNav() {
-        if (logging === false) {
+        if (headerInfo.logging === false) {
             return (
                 <>
+                    <Link to="/">home</Link>
                     <Link to="/signin">sign in</Link>
                     <Link to="/signup">sign up</Link>
                 </>
@@ -33,6 +34,8 @@ function App() {
         } else {
             return(
                 <>
+                    <Link to="/user" className='user'><img src={`http://lavi-blog.kro.kr:3030/userImg/${headerInfo.profileImg}.webp`}></img>{headerInfo.id}</Link>
+                    <Link to="/">home</Link>
                     <Link to="/write">write</Link>
                     <a onClick={ signOut }>sign out</a>
                 </>
@@ -44,14 +47,13 @@ function App() {
         <>
             <header>
                 <div className='headerInner'>
-                    <div>
+                    <div className='logo'>
                         <Link to="/">
                             <img src={logo} alt='logo' />
                             <h3>Blog</h3>
                         </Link>
                     </div>
                     <nav>
-                        <Link to="/">home</Link>
                         <SigninNav />
                     </nav>
                 </div>
