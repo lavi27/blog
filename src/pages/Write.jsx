@@ -7,9 +7,6 @@ function Write() {
     const [title, changeTitle] = useState("");
     const [content, changeContent] = useState("");
     let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let date = today.getDate();
 
     function writePost() {
         axios.post("http://lavi-blog.kro.kr:3030/api/write", { title, content }, {credentials: 'include', proxy: true,  withCredentials: true})
@@ -25,7 +22,7 @@ function Write() {
             <div className={style.topContents}>
                 <div className={style.info}>
                     <input onChange={ (e)=>{changeTitle(e.target.value)} } className={style.title} type='text'></input>
-                    <p>{`${year}-${month}-${date}`}</p>
+                    <p>{`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`}</p>
                 </div>
             </div>
             <img src={ postImg } alt='' />
