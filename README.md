@@ -1,8 +1,8 @@
-# Blog
+# [Blog](https://lavi-blog.netlify.app/)
 로그인하여 글을 자유롭게 쓰고 지우는 것이 가능한 웹사이트 입니다.
 react, express, mysql을 이용했으며, CRUD 연습작입니다.
 
-[링크](https://lavi-blog.netlify.app/)
+https://lavi-blog.netlify.app/
 
 ## 페이지 및 기능
 - Main
