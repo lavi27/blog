@@ -14,15 +14,27 @@ function Main() {
 
   useEffect(()=>{getPosts()}, []);
 
+  function PostImg(props) {
+    let value = postData[props.num];
+
+    if (value == undefined) {
+      return(<img src={postImg} alt='' />);
+    } else if (value.imgPath == null) {
+      return(<div style={{width: "120px", height: "80px"}}></div>);
+    } else {
+      let imgPath = `http://lavi-blog.kro.kr:3030/postImg/${value.imgPath}.webp`;
+      return(<img src={imgPath} alt='' />)
+    }
+  }
+
   function Post(props) {
     let value = postData[props.num];
     let title = "loading", uploadDate = "loading";
-    let content = "", imgPath = "", postNum = "";
+    let content = "", postNum = "";
     let like = "0", dislike = "0";
     if (value !== undefined) { //나중에 축약해서 수정
       title = value.title;
       content = value.content;
-      imgPath = `http://lavi-blog.kro.kr:3030/postImg/${value.imgPath}.webp`;
       like = value.likeCount;
       dislike = value.dislikeCount;
       uploadDate = value.uploadDate;
@@ -32,7 +44,7 @@ function Main() {
       <a href={(value === undefined) ? "" : `/post/${value.postNum}`}>
         <section>
           <div className={style.content}>
-            <img src={(value === undefined) ? postImg : imgPath} alt='' />
+            <PostImg num={props.num} />
             <div>
               <h1>{title}</h1>
               <p>{content}</p>
