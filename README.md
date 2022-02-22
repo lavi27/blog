@@ -29,9 +29,9 @@ https://lavi-blog.netlify.app/
   - 계정 생성일 (예정)
 
 ## 툴
-Frontend : react, netlify
+Frontend : react, axios, sass(scss), netlify
 
-Backend : express
+Backend : express, multer, sharp, bcryptjs
 
 DB : mysql
 
