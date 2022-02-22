@@ -7,8 +7,19 @@ function Write() {
     const [title, changeTitle] = useState("");
     const [content, changeContent] = useState("");
     const [img, ChangeImg] = useState("");
+    const [previewImg, ChangePreviewImg] = useState(postImg);
     const [postCurrect, changepostCurrect] = useState(0);
     let today = new Date();
+
+    function renderImg(file) {
+        ChangeImg(file);
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e)=>{
+            ChangePreviewImg(reader.result);
+        };
+    }
 
     function writePost() {
         if (title === "") {
@@ -45,8 +56,8 @@ function Write() {
                 </div>
             </div>
 
-            <label htmlFor='imgInput'><img src={ postImg } alt='' /></label>
-            <input id='imgInput' type='file' onChange={ (e)=>{ChangeImg(e.target.files[0]);} }></input>
+            <label htmlFor='imgInput'><img src={previewImg} alt='' /></label>
+            <input id='imgInput' type='file' onChange={ (e)=>{renderImg(e.target.files[0]);} }></input>
             
             <textarea onChange={ (e)=>{changeContent(e.target.value)} } className={style.content}></textarea>
 
