@@ -57,7 +57,7 @@ function Write() {
             </div>
 
             <label htmlFor='imgInput'><img src={previewImg} alt='' /></label>
-            <input id='imgInput' type='file' onChange={ (e)=>{renderImg(e.target.files[0]);} }></input>
+            <input className={style.imgInput} id='imgInput' type='file' onChange={ (e)=>{renderImg(e.target.files[0]);} }></input>
             
             <textarea onChange={ (e)=>{changeContent(e.target.value)} } className={style.content}></textarea>
 
