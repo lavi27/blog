@@ -6,15 +6,34 @@ import style from '../style/pageStyle/Write.module.scss';
 function Write() {
     const [title, changeTitle] = useState("");
     const [content, changeContent] = useState("");
+    const [img, ChangeImg] = useState("");
+    const [postCurrect, changepostCurrect] = useState(0);
     let today = new Date();
 
     function writePost() {
-        axios.post("http://lavi-blog.kro.kr:3030/api/write", { title, content }, {credentials: 'include', proxy: true,  withCredentials: true})
-            .then((response) => response.data)
-            .then((data) => {
-                window.location.replace("/");
-            })
-            .catch(error => console.error(error))
+        if (title === "") {
+            changepostCurrect(1);
+        } else if (content === "") {
+            changepostCurrect(2);
+        } else {
+            const formData = new FormData();
+            if (img !== "") {
+                formData.append('file', img);
+            }
+            formData.append('title', title);
+            formData.append('content', content);
+
+            axios.post("http://lavi-blog.kro.kr:3030/api/write", formData, {credentials: 'include', proxy: true,  withCredentials: true})
+                .then((response) => response.data)
+                .then((data) => {
+                    if (data.success) {
+                        window.location.replace("/");
+                    } else {
+                        changepostCurrect(3);
+                    }
+                })
+                .catch(error => console.error(error))
+        }
     }
 
     return (
@@ -25,11 +44,16 @@ function Write() {
                     <p>{`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`}</p>
                 </div>
             </div>
-            <img src={ postImg } alt='' />
+
+            <label htmlFor='imgInput'><img src={ postImg } alt='' /></label>
+            <input id='imgInput' type='file' onChange={ (e)=>{ChangeImg(e.target.files[0]);} }></input>
             
             <textarea onChange={ (e)=>{changeContent(e.target.value)} } className={style.content}></textarea>
 
             <button className={style.postBtn} onClick={writePost}>Post</button>
+            {(postCurrect === 1) ? <p>제목을 써주세요.</p> : null}
+            {(postCurrect === 2) ? <p>내용을 써주세요.</p> : null}
+            {(postCurrect === 3) ? <p>알 수 없는 버그가 발견했습니다.</p> : null}
         </main>
     );
 }
