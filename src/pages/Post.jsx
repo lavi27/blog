@@ -8,7 +8,7 @@ function Post() {
     const [postData, changepostData] = useState({
         title: "loading",
         content: "loading",
-        imgPath: `http://lavi-blog.kro.kr:3030/postImg/''.webp`,
+        imgPath: "",
         likeCount: "",
         dislikeCount: "",
         uploadDate: "____-__-__"
@@ -29,6 +29,16 @@ function Post() {
 
     useEffect(()=>{getPost()}, []);
 
+    function PostImg() {
+        if(postData.imgPath === "") {
+            return(<img src={postImg} alt='' />);
+        } else if(postData.imgPath === null) {
+            return(<></>);
+        } else {
+            return(<img src={`http://lavi-blog.kro.kr:3030/postImg/${postData.imgPath}.webp`} alt='' />)
+        }
+    }
+
     return (
         <main className={style.main}>
             <div className={style.topContents}>
@@ -37,7 +47,7 @@ function Post() {
                     <p>{postData.uploadDate}</p>
                 </div>
             </div>
-            <img src={(postData === undefined) ? postImg : postData.imgPath} alt='' />
+            <PostImg />
 
             <div className={style.content}>{postData.content}</div>
 
