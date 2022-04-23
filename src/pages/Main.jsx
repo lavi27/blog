@@ -69,20 +69,10 @@ function Main() {
   }
 
   function Posts() {
-    return(
-      <>
-        <Post num={0} />
-        <Post num={1} />
-        <Post num={2} />
-        <Post num={3} />
-        <Post num={4} />
-        <Post num={5} />
-        <Post num={6} />
-        <Post num={7} />
-        <Post num={8} />
-        <Post num={9} />
-      </>
-    )
+    for (let i=0; i<((postData.length < 10) ? postData.length : 10); i++) {
+      return(<Post num={i} />)
+    }
+    return(<></>)
   }
 
   return (
