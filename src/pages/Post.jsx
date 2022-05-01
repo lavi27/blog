@@ -9,6 +9,7 @@ function Post() {
     const [postData, changepostData] = useState({
         title: "loading",
         content: "loading",
+        userName: "loading",
         imgPath: "",
         likeCount: "",
         dislikeCount: "",
@@ -99,6 +100,7 @@ function Post() {
                 <div className={style.info}>
                     <h1>{postData.title}</h1>
                     <p>{postData.uploadDate}</p>
+                    <p>{postData.userName}</p>
                 </div>
             </div>
             <PostImg />

@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import postImg from '../res/img/postImg.png';
 import style from '../style/pageStyle/Write.module.scss';
 
 function Write() {
+    const [headerInfo, changeHeaderInfo] = useState("");
     const [title, changeTitle] = useState("");
     const [content, changeContent] = useState("");
     const [img, ChangeImg] = useState("");
     const [previewImg, ChangePreviewImg] = useState(postImg);
     const [postCurrect, changepostCurrect] = useState(0);
     let today = new Date();
+
+    function getLogging() {
+        axios.get("http://lavi-blog.kro.kr:3030/api/headerInfo", {credentials: 'include', proxy: true,  withCredentials: true})
+            .then((response) => response.data)
+            .then((data) => changeHeaderInfo(data))
+            .catch(error => console.error(error))
+    }
+
+    useEffect(()=>{getLogging()}, []);
 
     function renderImg(file) {
         ChangeImg(file);
@@ -52,7 +62,7 @@ function Write() {
             <div className={style.topContents}>
                 <div className={style.info}>
                     <input onChange={ (e)=>{changeTitle(e.target.value)} } className={style.title} type='text'></input>
-                    <p>{`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`}</p>
+                    <p>{`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`}</p><p>{headerInfo.id}</p>
                 </div>
             </div>
 

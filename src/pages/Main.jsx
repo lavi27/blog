@@ -33,6 +33,7 @@ function Main() {
     : {
       title: "loading",
       uploadDate: "loading",
+      userName: "loading",
       content: "",
       postNum: "",
       like: "0",
@@ -46,6 +47,7 @@ function Main() {
             <PostImg num={props.num} />
             <div>
               <h1>{value.title}</h1>
+              <p>{value.userName}</p>
               <p>{value.content}</p>
             </div>
           </div>
