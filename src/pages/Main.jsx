@@ -28,40 +28,39 @@ function Main() {
   }
 
   function Post(props) {
-    let value = postData[props.num];
-    let title = "loading", uploadDate = "loading";
-    let content = "", postNum = "";
-    let like = "0", dislike = "0";
-    if (value !== undefined) { //나중에 축약해서 수정
-      title = value.title;
-      content = value.content;
-      like = value.likeCount;
-      dislike = value.dislikeCount;
-      uploadDate = value.uploadDate;
-      postNum = value.postNum;
-    }
+    let value = (postData[props.num] !== undefined)
+    ? postData[props.num]
+    : {
+      title: "loading",
+      uploadDate: "loading",
+      content: "",
+      postNum: "",
+      like: "0",
+      dislike: "0"
+    };
+
     return(
-      <a href={(value === undefined) ? "" : `/post/${value.postNum}`}>
+      <a href={(postData[props.num] === undefined) ? "" : `/post/${value.postNum}`}>
         <section>
           <div className={style.content}>
             <PostImg num={props.num} />
             <div>
-              <h1>{title}</h1>
-              <p>{content}</p>
+              <h1>{value.title}</h1>
+              <p>{value.content}</p>
             </div>
           </div>
           <div className={style.rightUi}>
             <div className={style.likeBtns}>
               <div className={style.like}>
                 <i className="bi bi-hand-thumbs-up"></i>
-                <span>{like}</span>
+                <span>{value.like}</span>
               </div>
               <div className={style.dislike}>
                 <i className="bi bi-hand-thumbs-down"></i>
-                <span>{dislike}</span>
+                <span>{value.dislike}</span>
               </div>
             </div>
-            <p className={style.uploadTime}>{uploadDate}</p>
+            <p className={style.uploadTime}>{value.uploadDate}</p>
           </div>
         </section>
       </a>
