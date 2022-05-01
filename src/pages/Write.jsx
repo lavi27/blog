@@ -44,7 +44,7 @@ function Write() {
             formData.append('title', title);
             formData.append('content', content);
 
-            axios.post("http://lavi-blog.kro.kr:3030/api/write", formData, {credentials: 'include', proxy: true,  withCredentials: true})
+            axios.post("http://lavi-blog.kro.kr:3030/api/write", formData, { credentials: 'include', proxy: true,  withCredentials: true})
                 .then((response) => response.data)
                 .then((data) => {
                     if (data.success) {
