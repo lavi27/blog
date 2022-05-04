@@ -51,6 +51,30 @@
     }
 }
 
+.edit {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    background: #f8f8f8;
+    box-shadow: 0px 0px 15px #0000001f;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 20px 0px 0px auto;
+    width: fit-content;
+
+    a,
+    span {
+        color: #000;
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    a:hover,
+    span:hover {
+        background: #0001;
+    }
+}
+
 .like {
     display: flex;
     justify-content: space-between;
