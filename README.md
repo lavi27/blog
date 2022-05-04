@@ -21,9 +21,9 @@ https://lavi-blog.netlify.app/
   - 글 작성일 확인
   - 글 수정 및 삭제 (본인의 글에만)
 - Write
-  - 글 쓰기
+  - 글 쓰기 (로그인 시에만)
 - edit/(글 번호)
-  - 제목, 내용 수정
+  - 제목, 내용 수정 (본인의 글에만)
 
 ## 툴
 Frontend : react, axios, sass(scss), netlify
