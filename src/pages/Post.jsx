@@ -9,7 +9,7 @@ function Post() {
     const [postData, changepostData] = useState({
         title: "loading",
         content: "loading",
-        userName: "loading",
+        userId: "loading",
         imgPath: "",
         likeCount: "",
         dislikeCount: "",
@@ -18,6 +18,7 @@ function Post() {
 
     const [likeIsClick, changelikeClick] = useState(0);
     const [dislikeIsClick, changedisdislikeClick] = useState(0);
+    const [isLogging, setIsLogging] = useState("");
 
     function getPost() {
         axios.get(`http://lavi-blog.kro.kr:3030/api/post/${postNum}`, {credentials: 'include', proxy: true,  withCredentials: true})
@@ -50,38 +51,69 @@ function Post() {
             .catch(error => console.error(error))
     }
 
-    useEffect(()=>{getPost()}, []);
-
-    function clickLike() {
-        axios.post("http://lavi-blog.kro.kr:3030/api/reaction/", {postNum, reaction: (likeIsClick) ? 0 : 1}, {credentials: 'include', proxy: true,  withCredentials: true})
+    
+    function getLogging() {
+        axios.get("http://lavi-blog.kro.kr:3030/api/headerInfo", {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
-            .then((data) => {
-                if (data.success) {
-                    changelikeClick(!likeIsClick);
-                    if (dislikeIsClick) {
-                        changedisdislikeClick(!dislikeIsClick);
-                    }
-                } else {
-                    console.log(data.err)
-                }
-            })
+            .then((data) => setIsLogging(data.logging))
             .catch(error => console.error(error))
     }
 
-    function clickDislike() {
-        axios.post("http://lavi-blog.kro.kr:3030/api/reaction/", {postNum, reaction: (dislikeIsClick) ? 0 : 2}, {credentials: 'include', proxy: true,  withCredentials: true})
-            .then((response) => response.data)
-            .then((data) => {
-                if (data.success) {
+    useEffect(()=>{
+        getPost();
+        getLogging();
+    }, []);
+
+    function reaction(props) {
+        return new Promise(resolve => {
+            axios.post("http://lavi-blog.kro.kr:3030/api/reaction/", props, {credentials: 'include', proxy: true,  withCredentials: true})
+                .then((response) => response.data)
+                .then((data) => { resolve(data) })
+                .catch(error => {
+                    console.error(error);
+                    resolve({success: false});
+                })
+        });
+    }
+
+    async function clickLike() {
+        if(isLogging) {
+            const data = await reaction({postNum, reaction: (likeIsClick) ? 0 : 1});
+
+            if (data.success) {
+                changelikeClick(!likeIsClick);
+                if (dislikeIsClick) {
                     changedisdislikeClick(!dislikeIsClick);
-                    if (likeIsClick) {
-                        changelikeClick(!likeIsClick);
-                    }
-                } else {
-                    console.log(data.err)
                 }
-            })
-            .catch(error => console.error(error))
+            } else {
+                console.log(data.err)
+            }
+        } else {
+            const confirm = window.confirm("로그인이 필요합니다.\n로그인 화면으로 이동할까요?");
+            if(confirm) {
+                window.location.replace("/signin");
+            }
+        }
+    }
+
+    async function clickDislike() {
+        if(isLogging) {
+            const data = await reaction({postNum, reaction: (dislikeIsClick) ? 0 : 2});
+
+            if (data.success) {
+                changedisdislikeClick(!dislikeIsClick);
+                if (likeIsClick) {
+                    changelikeClick(!likeIsClick);
+                }
+            } else {
+                console.log(data.err)
+            }
+        } else {
+            const confirm = window.confirm("로그인이 필요합니다.\n로그인 화면으로 이동할까요?");
+            if(confirm) {
+                window.location.replace("/signin");
+            }
+        }
     }
 
     function PostImg() {
@@ -100,7 +132,7 @@ function Post() {
                 <div className={style.info}>
                     <h1>{postData.title}</h1>
                     <p>{postData.uploadDate}</p>
-                    <p>{postData.userName}</p>
+                    <p>{postData.userId}</p>
                 </div>
             </div>
             <PostImg />
