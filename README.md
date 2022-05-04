@@ -26,9 +26,9 @@ https://lavi-blog.netlify.app/
   - 제목, 내용 수정 (본인의 글에만)
 
 ## 툴
-Frontend : react, axios, sass(scss), netlify
+Frontend : react, sass(scss)
 
-Backend : express, multer, sharp, bcryptjs
+Backend : express
 
 DB : mysql
 
