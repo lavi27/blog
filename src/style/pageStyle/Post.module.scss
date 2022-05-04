@@ -34,18 +34,21 @@
             border-radius: 10px;
         }
     }
-
-    img {
-        width: 220px;
-        height: 160px;
-        margin-top: 30px;
-        border-radius: 10px;
-    }
 }
 
-.content {
-    font-size: 15px;
+.content_wrap {
     margin-top: 30px;
+
+    .postImg {
+        width: 220px;
+        height: 160px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    .content {
+        font-size: 15px;
+    }
 }
 
 .like {

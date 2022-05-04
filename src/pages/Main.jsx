@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import postImg from '../res/img/postImg.png';
 import style from '../style/pageStyle/Main.module.scss';
+import Loading from '../components/Loading';
 
 function Main() {
   const [postData, changepostData] = useState("");
@@ -80,7 +81,9 @@ function Main() {
     for (let i=0; i<((postData.length < 10) ? postData.length : 10); i++) {
       return(<Post num={i} />)
     }
-    return(<></>)
+    return (
+      <Loading />
+    )
   }
 
   return (

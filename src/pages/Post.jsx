@@ -3,10 +3,12 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import postImg from '../res/img/postImg.png';
 import style from '../style/pageStyle/Post.module.scss';
+import Loading from '../components/Loading';
 
 function Post() {
     const { postNum } = useParams();
     const [postData, changepostData] = useState({
+        loaded: false,
         title: "loading",
         content: "loading",
         userId: "loading",
@@ -25,6 +27,7 @@ function Post() {
             .then((response) => response.data)
             .then((data) => {
                 const value = data.data[0];
+                value.loaded = true;
                 value.likeCount = 0;
                 value.dislikeCount = 0;
 
@@ -116,13 +119,29 @@ function Post() {
         }
     }
 
+    function Content() {
+        if(postData.loaded) {
+            return (
+                <div className={style.content_wrap}>
+                    <PostImg />
+                    <div className={style.content}>{postData.content}</div>
+                </div>
+            )
+        }
+        return (
+            <div className={style.content_wrap}>
+                <Loading />
+            </div>
+        )
+    }
+
     function PostImg() {
         if(postData.imgPath === "") {
-            return(<img src={postImg} alt='' />);
+            return(<img className={style.postImg} src={postImg} alt='' />);
         } else if(postData.imgPath === null) {
             return(<></>);
         } else {
-            return(<img src={`http://lavi-blog.kro.kr:3030/postImg/${postData.imgPath}.webp`} alt='' />)
+            return(<img className={style.postImg} src={`http://lavi-blog.kro.kr:3030/postImg/${postData.imgPath}.webp`} alt='' />)
         }
     }
 
@@ -135,9 +154,8 @@ function Post() {
                     <p>{postData.userId}</p>
                 </div>
             </div>
-            <PostImg />
 
-            <div className={style.content}>{postData.content}</div>
+            <Content />
 
             <div className={style.like}>
                 <span className={style.likeBtn}>
