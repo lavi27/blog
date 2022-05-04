@@ -37,6 +37,16 @@
                 border-radius: 8px;
             }
         
+            @media (max-width: 440px) {
+                h1 {
+                    font-size: 22px !important;
+                }
+
+                .content {
+                    font-size: 10px !important;
+                }
+            }
+
             h1 {
                 margin-bottom: 12px;
                 font-size: 25px;
@@ -61,6 +71,12 @@
             align-items: flex-end;
             flex-shrink: 0;
 
+            @media (max-width: 440px) {
+                .likeBtns {
+                    font-size: 18px !important;
+                }
+            }
+
             .likeBtns {
                 display: flex;
                 gap: 15px;
@@ -70,6 +86,12 @@
                     i {
                         margin-right: 4px;
                     }
+                }
+            }
+
+            @media (max-width: 440px) {
+                .uploadTime {
+                    font-size: 11px !important;
                 }
             }
 
