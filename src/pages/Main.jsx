@@ -5,7 +5,7 @@ import style from '../style/pageStyle/Main.module.scss';
 import Loading from '../components/Loading';
 
 function Main() {
-  const [postData, changepostData] = useState("");
+  const [postData, changepostData] = useState(null);
 
   function getPosts() {
     // fetch("http://lavi-blog.kro.kr:3030/api/main")
@@ -15,24 +15,24 @@ function Main() {
 
     axios.get(`http://lavi-blog.kro.kr:3030/api/main`, {credentials: 'include', proxy: true,  withCredentials: true})
       .then((response) => response.data)
-      .then((data) => {changepostData(data.data)})
+      .then((data) => {changepostData(data.data);})
       .catch(error => console.error(error))
   }
 
   useEffect(()=>{getPosts()}, []);
 
-  function PostImg(props) {
-    let value = postData[props.num];
+  // function PostImg(props) {
+  //   let value = postData[props.num];
 
-    if (value === undefined) {
-      return(<img src={postImg} alt='' />);
-    } else if (value.imgPath == null) {
-      return(<div style={{width: "120px", height: "80px"}}></div>);
-    } else {
-      let imgPath = `http://lavi-blog.kro.kr:3030/postImg/${value.imgPath}.webp`;
-      return(<img src={imgPath} alt='' />)
-    }
-  }
+  //   if (value === undefined) {
+  //     return(<img src={postImg} alt='' />);
+  //   } else if (value.imgPath == null) {
+  //     return(<div style={{width: "120px", height: "80px"}}></div>);
+  //   } else {
+  //     let imgPath = `http://lavi-blog.kro.kr:3030/postImg/${value.imgPath}.webp`;
+  //     return(<img src={imgPath} alt='' />)
+  //   }
+  // }
 
   function Post(props) {
     let value = (postData[props.num] !== undefined)
@@ -51,13 +51,10 @@ function Main() {
     return(
       <a href={(postData[props.num] === undefined) ? "" : `/post/${value.postNum}`}>
         <section>
-          <div className={style.content}>
-            <PostImg num={props.num} />
-            <div>
-              <h1>{value.title}</h1>
-              <p>{value.userName}</p>
-              <p>{value.content}</p>
-            </div>
+          <div className={style.content_wrap}>
+            {/* <PostImg num={props.num} /> */}
+            <h1>{value.title}</h1>
+            <p className={style.content}>{value.content}</p>
           </div>
           <div className={style.rightUi}>
             <div className={style.likeBtns}>
@@ -78,12 +75,17 @@ function Main() {
   }
 
   function Posts() {
-    for (let i=0; i<((postData.length < 10) ? postData.length : 10); i++) {
-      return(<Post num={i} />)
+    if(postData !== null) {
+      const result = [];
+      for (let i=0; i<postData.length; i++) {
+        result.push(<Post key={i} num={i} />);
+      }
+      return(result)
+    } else {
+      return (
+        <Loading />
+      )
     }
-    return (
-      <Loading />
-    )
   }
 
   return (
