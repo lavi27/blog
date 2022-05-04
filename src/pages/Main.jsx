@@ -39,11 +39,11 @@ function Main() {
     : {
       title: "loading",
       uploadDate: "loading",
-      userName: "loading",
+      userId: "loading",
       content: "",
       postNum: "",
-      like: "0",
-      dislike: "0",
+      likeCount: "0",
+      dislikeCount: "0",
       myReaction: ""
     };
 
@@ -61,15 +61,15 @@ function Main() {
           <div className={style.rightUi}>
             <div className={style.likeBtns}>
               <div className={style.like}>
-                <i className={`bi bi-hand-thumbs-up${(value.myReaction === 1) ? "-fill" : ""}`}></i>
-                <span>{value.like}</span>
+                <i className={`bi bi-hand-thumbs-up${(value.myReaction === '1') ? "-fill" : ""}`}></i>
+                <span>{value.likeCount}</span>
               </div>
               <div className={style.dislike}>
-              <i className={`bi bi-hand-thumbs-down${(value.myReaction === 2) ? "-fill" : ""}`}></i>
-                <span>{value.dislike}</span>
+              <i className={`bi bi-hand-thumbs-down${(value.myReaction === '2') ? "-fill" : ""}`}></i>
+                <span>{value.dislikeCount}</span>
               </div>
             </div>
-            <p className={style.uploadTime}>{value.uploadDate}</p>
+            <p className={style.uploadTime}>{value.userId} - {value.uploadDate}</p>
           </div>
         </section>
       </a>
