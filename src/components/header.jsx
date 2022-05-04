@@ -5,7 +5,9 @@ import logo from '../res/img/logo.svg';
 import '../style/header.scss';
 
 function App() {
-    const [headerInfo, changeHeaderInfo] = useState("");
+    const [headerInfo, changeHeaderInfo] = useState({
+        logging: false
+    });
 
     function getLogging() {
         axios.get("http://lavi-blog.kro.kr:3030/api/headerInfo", {credentials: 'include', proxy: true,  withCredentials: true})
