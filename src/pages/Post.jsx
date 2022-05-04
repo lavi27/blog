@@ -67,70 +67,86 @@ function Post() {
         getLogging();
     }, []);
 
-    function reaction(props) {
-        return new Promise(resolve => {
-            axios.post("http://lavi-blog.kro.kr:3030/api/reaction/", props, {credentials: 'include', proxy: true,  withCredentials: true})
-                .then((response) => response.data)
-                .then((data) => { resolve(data) })
-                .catch(error => {
-                    console.error(error);
-                    resolve({success: false});
-                })
-        });
-    }
-
-    async function clickLike() {
-        if(isLogging) {
-            const data = await reaction({postNum, reaction: (likeIsClick) ? 0 : 1});
-
-            if (data.success) {
-                changelikeClick(!likeIsClick);
-                if (dislikeIsClick) {
-                    changedisdislikeClick(!dislikeIsClick);
-                }
-            } else {
-                console.log(data.err)
-            }
-        } else {
-            const confirm = window.confirm("로그인이 필요합니다.\n로그인 화면으로 이동할까요?");
-            if(confirm) {
-                window.location.replace("/signin");
-            }
-        }
-    }
-
-    async function clickDislike() {
-        if(isLogging) {
-            const data = await reaction({postNum, reaction: (dislikeIsClick) ? 0 : 2});
-
-            if (data.success) {
-                changedisdislikeClick(!dislikeIsClick);
-                if (likeIsClick) {
-                    changelikeClick(!likeIsClick);
-                }
-            } else {
-                console.log(data.err)
-            }
-        } else {
-            const confirm = window.confirm("로그인이 필요합니다.\n로그인 화면으로 이동할까요?");
-            if(confirm) {
-                window.location.replace("/signin");
-            }
-        }
-    }
-
     function Content() {
         if(postData.loaded) {
             return (
                 <div className={style.content_wrap}>
-                    <PostImg />
+                    {/* <PostImg /> */}
                     <div className={style.content}>{postData.content}</div>
                 </div>
             )
+        } else {
+            return (
+                <div className={style.content_wrap}>
+                    <Loading />
+                </div>
+            )
         }
+    }
+
+    function Reaction() {
+        function reaction(props) {
+            return new Promise(resolve => {
+                axios.post("http://lavi-blog.kro.kr:3030/api/reaction/", props, {credentials: 'include', proxy: true,  withCredentials: true})
+                    .then((response) => response.data)
+                    .then((data) => { resolve(data) })
+                    .catch(error => {
+                        console.error(error);
+                        resolve({success: false});
+                    })
+            });
+        }
+
+        async function clickLike() {
+            if(isLogging) {
+                const data = await reaction({postNum, reaction: (likeIsClick) ? 0 : 1});
+    
+                if (data.success) {
+                    changelikeClick(!likeIsClick);
+                    if (dislikeIsClick) {
+                        changedisdislikeClick(!dislikeIsClick);
+                    }
+                } else {
+                    console.log(data.err)
+                }
+            } else {
+                const confirm = window.confirm("로그인이 필요합니다.\n로그인 화면으로 이동할까요?");
+                if(confirm) {
+                    window.location.replace("/signin");
+                }
+            }
+        }
+    
+        async function clickDislike() {
+            if(isLogging) {
+                const data = await reaction({postNum, reaction: (dislikeIsClick) ? 0 : 2});
+    
+                if (data.success) {
+                    changedisdislikeClick(!dislikeIsClick);
+                    if (likeIsClick) {
+                        changelikeClick(!likeIsClick);
+                    }
+                } else {
+                    console.log(data.err)
+                }
+            } else {
+                const confirm = window.confirm("로그인이 필요합니다.\n로그인 화면으로 이동할까요?");
+                if(confirm) {
+                    window.location.replace("/signin");
+                }
+            }
+        }
+
         return (
-            <div className={style.content_wrap}>
-                <Loading />
+            <div className={style.like}>
+                <span className={style.likeBtn}>
+                    <i className={`bi bi-hand-thumbs-up${(likeIsClick === true) ? "-fill" : ""}`} onClick={ clickLike }></i>
+                    {postData.likeCount + likeIsClick}
+                </span>
+                <span className={style.dislikeBtn}>
+                    <i className={`bi bi-hand-thumbs-down${(dislikeIsClick === true) ? "-fill" : ""}`} onClick={ clickDislike }></i>
+                    {postData.dislikeCount + dislikeIsClick}
+                </span>
             </div>
         )
     }
@@ -157,16 +173,7 @@ function Post() {
 
             <Content />
 
-            <div className={style.like}>
-                <span className={style.likeBtn}>
-                    <i className={`bi bi-hand-thumbs-up${(likeIsClick === true) ? "-fill" : ""}`} onClick={ clickLike }></i>
-                    {postData.likeCount + likeIsClick}
-                </span>
-                <span className={style.dislikeBtn}>
-                    <i className={`bi bi-hand-thumbs-down${(dislikeIsClick === true) ? "-fill" : ""}`} onClick={ clickDislike }></i>
-                    {postData.dislikeCount + dislikeIsClick}
-                </span>
-            </div>
+            <Reaction />
         </main>
     );
 }
