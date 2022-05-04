@@ -23,59 +23,65 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        .content_wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            width: calc(100% - 140px);
+        
+            img {
+                width: 120px;
+                height: 80px;
+                border-radius: 8px;
+            }
+        
+            h1 {
+                margin-bottom: 12px;
+                font-size: 25px;
+                font-weight: 500;
+            }
+        
+            .content {
+                width: 100%;
+                font-size: 12px;
+                margin: 0px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        
+        .rightUi {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: flex-end;
+            flex-shrink: 0;
+
+            .likeBtns {
+                display: flex;
+                gap: 15px;
+                font-size: 20px;
+            
+                div {
+                    i {
+                        margin-right: 4px;
+                    }
+                }
+            }
+
+            .uploadTime {
+                font-size: 13px;
+                margin: 0px;
+                color: #555;
+            }
+        }
     }
 
     section:hover {
         background: #f8f8f8;
-    }
-}
-
-.content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-
-    img {
-        width: 120px;
-        height: 80px;
-        border-radius: 8px;
-    }
-
-    h1 {
-        margin-bottom: 12px;
-        font-size: 25px;
-        font-weight: 500;
-    }
-
-    p {
-        font-size: 12px;
-        margin: 0px;
-    }
-}
-
-.rightUi {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
-    align-items: flex-end;
-}
-
-.uploadTime {
-    font-size: 13px;
-    margin: 0px;
-    color: #555;
-}
-
-.likeBtns {
-    display: flex;
-    gap: 15px;
-    font-size: 20px;
-
-    div {
-        i {
-            margin-right: 4px;
-        }
     }
 }
