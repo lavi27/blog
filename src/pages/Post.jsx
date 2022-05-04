@@ -77,7 +77,7 @@ function Post() {
                 <div className={style.content_wrap}>
                     {/* <PostImg /> */}
                     <div className={style.content}>{postData.content}</div>
-                    {(userData.logging) ? <Edit /> : null}
+                    {(userData.logging && userData.id === postData.userId) ? <Edit /> : null}
                 </div>
             )
         } else {
@@ -128,7 +128,7 @@ function Post() {
         }
 
         async function clickLike() {
-            if(userData.isLogging) {
+            if(userData.logging) {
                 const data = await reaction({postNum, reaction: (likeIsClick) ? 0 : 1});
     
                 if (data.success) {
@@ -148,7 +148,7 @@ function Post() {
         }
     
         async function clickDislike() {
-            if(userData.isLogging) {
+            if(userData.logging) {
                 const data = await reaction({postNum, reaction: (dislikeIsClick) ? 0 : 2});
     
                 if (data.success) {
