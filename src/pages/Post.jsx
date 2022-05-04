@@ -20,7 +20,7 @@ function Post() {
 
     const [likeIsClick, changelikeClick] = useState(0);
     const [dislikeIsClick, changedisdislikeClick] = useState(0);
-    const [isLogging, setIsLogging] = useState("");
+    const [userData, setUserData] = useState({loaded: false});
 
     function getPost() {
         axios.get(`http://lavi-blog.kro.kr:3030/api/post/${postNum}`, {credentials: 'include', proxy: true,  withCredentials: true})
@@ -58,7 +58,11 @@ function Post() {
     function getLogging() {
         axios.get("http://lavi-blog.kro.kr:3030/api/headerInfo", {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
-            .then((data) => setIsLogging(data.logging))
+            .then((data) => {
+                const value = data;
+                value.loaded = true;
+                setUserData(value);
+            })
             .catch(error => console.error(error))
     }
 
@@ -73,6 +77,7 @@ function Post() {
                 <div className={style.content_wrap}>
                     {/* <PostImg /> */}
                     <div className={style.content}>{postData.content}</div>
+                    {(userData.logging) ? <Edit /> : null}
                 </div>
             )
         } else {
@@ -82,6 +87,31 @@ function Post() {
                 </div>
             )
         }
+    }
+
+    function Edit() {
+        return (
+            <div className={style.edit}>
+                <a href={`/edit/${postNum}`}>수정</a>
+                <span onClick={() => {
+                    if(window.confirm("정말 삭제할까요?")) {
+                        axios.post (
+                            "http://lavi-blog.kro.kr:3030/api/delete",
+                            {postNum, userNum: userData.userNum},
+                            {credentials: 'include', proxy: true, withCredentials: true}
+                            )
+                            .then(() => {
+                                alert("삭제되었습니다.");
+                                window.location.replace("/");
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                alert("오류가 발생했습니다.")
+                            })
+                    }
+                }}>삭제</span>
+            </div>
+        )
     }
 
     function Reaction() {
@@ -98,7 +128,7 @@ function Post() {
         }
 
         async function clickLike() {
-            if(isLogging) {
+            if(userData.isLogging) {
                 const data = await reaction({postNum, reaction: (likeIsClick) ? 0 : 1});
     
                 if (data.success) {
@@ -118,7 +148,7 @@ function Post() {
         }
     
         async function clickDislike() {
-            if(isLogging) {
+            if(userData.isLogging) {
                 const data = await reaction({postNum, reaction: (dislikeIsClick) ? 0 : 2});
     
                 if (data.success) {
@@ -151,16 +181,6 @@ function Post() {
         )
     }
 
-    function PostImg() {
-        if(postData.imgPath === "") {
-            return(<img className={style.postImg} src={postImg} alt='' />);
-        } else if(postData.imgPath === null) {
-            return(<></>);
-        } else {
-            return(<img className={style.postImg} src={`http://lavi-blog.kro.kr:3030/postImg/${postData.imgPath}.webp`} alt='' />)
-        }
-    }
-
     return (
         <main className={style.main}>
             <div className={style.topContents}>
@@ -170,9 +190,7 @@ function Post() {
                     <p>{postData.userId}</p>
                 </div>
             </div>
-
             <Content />
-
             <Reaction />
         </main>
     );

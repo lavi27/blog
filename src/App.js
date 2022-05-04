@@ -7,6 +7,7 @@ import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import Post from './pages/Post';
 import Write from './pages/Write';
+import Edit from './pages/Edit';
 import Test from './pages/Test';
 import './style/style.scss';
 
@@ -20,6 +21,7 @@ return (
         <Route path="/signup" element={<Signup />} />
         <Route path="/post/:postNum" element={<Post />} />
         <Route path="/write" element={<Write />} />
+        <Route path="/edit/:postNum" element={<Edit />} />
         <Route path="/test" element={<Test />} />
     </Routes>
 </>
