@@ -3,11 +3,21 @@ import axios from 'axios';
 import style from '../style/pageStyle/Signin.module.scss';
 
 function Signin() {
-    const [id, changeId] = useState("");
-    const [pw, changePw] = useState("");
+    const [id, changeId] = useState(null);
+    const [pw, changePw] = useState(null);
     const [signinCurrect, changeSigninCurrect] = useState(false);
 
     function submit() {
+        if(id === null) {
+            alert("아이디를 입력해주세요.");
+            return;
+        }
+
+        if(pw === null) {
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+        
         axios.post("http://lavi-blog.kro.kr:3030/api/signin", { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => {
