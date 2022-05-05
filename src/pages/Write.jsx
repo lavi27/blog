@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import postImg from '../res/img/postImg.png';
 import style from '../style/pageStyle/Write.module.scss';
+require('dotenv').config();
+
+const serverURL = process.env.SERVER_URL;
 
 function Write() {
     const [headerInfo, changeHeaderInfo] = useState("");
@@ -12,7 +15,7 @@ function Write() {
     let today = new Date();
 
     function getLogging() {
-        axios.get("http://lavi-blog.kro.kr:3030/api/headerInfo", {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.get(`${serverURL}/headerInfo`, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => changeHeaderInfo(data))
             .catch(error => console.error(error))
@@ -43,7 +46,7 @@ function Write() {
             // formData.append('title', title);
             // formData.append('content', content);
 
-            axios.post("http://lavi-blog.kro.kr:3030/api/write", {title, content, userNum: headerInfo.userNum}, { credentials: 'include', proxy: true,  withCredentials: true})
+            axios.post(`${serverURL}/write`, {title, content, userNum: headerInfo.userNum}, { credentials: 'include', proxy: true,  withCredentials: true})
                 .then((response) => response.data)
                 .then((data) => {
                     if (data.success) {

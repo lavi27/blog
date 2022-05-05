@@ -4,6 +4,9 @@ import { useParams } from 'react-router-dom';
 import postImg from '../res/img/postImg.png';
 import style from '../style/pageStyle/Post.module.scss';
 import Loading from '../components/Loading';
+require('dotenv').config();
+
+const serverURL = process.env.SERVER_URL;
 
 function Post() {
     const { postNum } = useParams();
@@ -23,7 +26,7 @@ function Post() {
     const [userData, setUserData] = useState({loaded: false});
 
     function getPost() {
-        axios.get(`http://lavi-blog.kro.kr:3030/api/post/${postNum}`, {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.get(`${serverURL}/post/${postNum}`, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => {
                 const value = data.data[0];
@@ -56,7 +59,7 @@ function Post() {
 
     
     function getLogging() {
-        axios.get("http://lavi-blog.kro.kr:3030/api/headerInfo", {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.get(`${serverURL}/headerInfo`, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => {
                 const value = data;
@@ -96,7 +99,7 @@ function Post() {
                 <span onClick={() => {
                     if(window.confirm("정말 삭제할까요?")) {
                         axios.post (
-                            "http://lavi-blog.kro.kr:3030/api/delete",
+                            `${serverURL}/delete`,
                             {postNum, userNum: userData.userNum},
                             {credentials: 'include', proxy: true, withCredentials: true}
                             )
@@ -117,7 +120,7 @@ function Post() {
     function Reaction() {
         function reaction(props) {
             return new Promise(resolve => {
-                axios.post("http://lavi-blog.kro.kr:3030/api/reaction/", props, {credentials: 'include', proxy: true,  withCredentials: true})
+                axios.post(`${serverURL}/reaction/`, props, {credentials: 'include', proxy: true,  withCredentials: true})
                     .then((response) => response.data)
                     .then((data) => { resolve(data) })
                     .catch(error => {

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import style from '../style/pageStyle/Signup.module.scss';
+require('dotenv').config();
+
+const serverURL = process.env.SERVER_URL;
 
 function Signup() {
     const [id, changeId] = useState("");
@@ -8,7 +11,7 @@ function Signup() {
     const [isSignup, changeIsSignup] = useState(false);
 
     function submit() {
-        axios.post("http://lavi-blog.kro.kr:3030/api/signup", { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.post(`${serverURL}/signup`, { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => {
                 if (data.success === false) {

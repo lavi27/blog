@@ -3,17 +3,20 @@ import axios from 'axios';
 import postImg from '../res/img/postImg.png';
 import style from '../style/pageStyle/Main.module.scss';
 import Loading from '../components/Loading';
+require('dotenv').config();
+
+const serverURL = process.env.SERVER_URL;
 
 function Main() {
   const [postData, changepostData] = useState(null);
 
   function getPosts() {
-    // fetch("http://lavi-blog.kro.kr:3030/api/main")
+    // fetch("http://192.168.1.117:3030/api/main")
     //   .then((response) => response.json())
     //   .then((data) => changepostData(data.data))
     //   .catch(error => console.error(error))
 
-    axios.get(`http://lavi-blog.kro.kr:3030/api/main`, {credentials: 'include', proxy: true,  withCredentials: true})
+    axios.get(`${serverURL}/main`, {credentials: 'include', proxy: true,  withCredentials: true})
       .then((response) => response.data)
       .then((data) => {changepostData(data.data);})
       .catch(error => console.error(error))
@@ -29,7 +32,7 @@ function Main() {
   //   } else if (value.imgPath == null) {
   //     return(<div style={{width: "120px", height: "80px"}}></div>);
   //   } else {
-  //     let imgPath = `http://lavi-blog.kro.kr:3030/postImg/${value.imgPath}.webp`;
+  //     let imgPath = `http://192.168.1.117:3030/postImg/${value.imgPath}.webp`;
   //     return(<img src={imgPath} alt='' />)
   //   }
   // }

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import style from '../style/pageStyle/Signin.module.scss';
+require('dotenv').config();
+
+const serverURL = process.env.SERVER_URL;
 
 function Signin() {
     const [id, changeId] = useState(null);
@@ -18,7 +21,7 @@ function Signin() {
             return;
         }
         
-        axios.post("http://lavi-blog.kro.kr:3030/api/signin", { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.post(`${serverURL}/signin`, { id, pw }, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => {
                 if (data.success === false) {

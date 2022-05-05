@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import style from '../style/pageStyle/Write.module.scss';
+require('dotenv').config();
+
+const serverURL = process.env.SERVER_URL;
 
 function Edit() {
     const { postNum } = useParams();
@@ -22,7 +25,7 @@ function Edit() {
     });
 
     function getPost() {
-        axios.get(`http://lavi-blog.kro.kr:3030/api/post/${postNum}`, {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.get(`${serverURL}/post/${postNum}`, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => {
                 const value = data.data[0];
@@ -36,7 +39,7 @@ function Edit() {
 
     
     function getLogging() {
-        axios.get("http://lavi-blog.kro.kr:3030/api/headerInfo", {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.get(`${serverURL}/headerInfo`, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => {
                 const value = data;
@@ -69,7 +72,7 @@ function Edit() {
         } else if (content === "") {
             changepostCurrect(2);
         } else {
-            axios.post("http://lavi-blog.kro.kr:3030/api/edit", {title, content, postNum}, { credentials: 'include', proxy: true,  withCredentials: true})
+            axios.post(`${serverURL}/edit`, {title, content, postNum}, { credentials: 'include', proxy: true,  withCredentials: true})
                 .then((response) => response.data)
                 .then((data) => {
                     if (data.success) {
