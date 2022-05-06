@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import style from '../style/pageStyle/Signin.module.scss';
-require('dotenv').config();
 
-const serverURL = process.env.SERVER_URL;
+const serverURL = require('../config.json').SERVER_URL;
 
 function Signin() {
     const [id, changeId] = useState(null);

@@ -4,9 +4,8 @@ import { useParams } from 'react-router-dom';
 import postImg from '../res/img/postImg.png';
 import style from '../style/pageStyle/Post.module.scss';
 import Loading from '../components/Loading';
-require('dotenv').config();
 
-const serverURL = process.env.SERVER_URL;
+const serverURL = require('../config.json').SERVER_URL;
 
 function Post() {
     const { postNum } = useParams();

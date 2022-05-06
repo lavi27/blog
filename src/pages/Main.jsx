@@ -3,9 +3,8 @@ import axios from 'axios';
 import postImg from '../res/img/postImg.png';
 import style from '../style/pageStyle/Main.module.scss';
 import Loading from '../components/Loading';
-require('dotenv').config();
 
-const serverURL = process.env.SERVER_URL;
+const serverURL = require('../config.json').SERVER_URL;
 
 function Main() {
   const [postData, changepostData] = useState(null);

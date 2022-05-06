@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import postImg from '../res/img/postImg.png';
 import style from '../style/pageStyle/Write.module.scss';
-require('dotenv').config();
 
-const serverURL = process.env.SERVER_URL;
+const serverURL = require('../config.json').SERVER_URL;
 
 function Write() {
     const [headerInfo, changeHeaderInfo] = useState("");

@@ -4,20 +4,22 @@ import { Link } from 'react-router-dom';
 import logo from '../res/img/logo.svg';
 import '../style/header.scss';
 
+const serverURL = require('../config.json').SERVER_URL;
+
 function App() {
     const [headerInfo, changeHeaderInfo] = useState({
         logging: false
     });
 
     function getLogging() {
-        axios.get("http://lavi-blog.kro.kr:3030/api/headerInfo", {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.get(`${serverURL}/headerInfo`, {credentials: 'include', proxy: true,  withCredentials: true})
             .then((response) => response.data)
             .then((data) => changeHeaderInfo(data))
             .catch(error => console.error(error))
     }
 
     function signOut() {
-        axios.get("http://lavi-blog.kro.kr:3030/api/signOut", {credentials: 'include', proxy: true,  withCredentials: true})
+        axios.get(`${serverURL}/signOut`, {credentials: 'include', proxy: true,  withCredentials: true})
             .then(() => window.location.replace("/"))
             .catch(error => console.error(error))
     }

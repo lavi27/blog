@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import style from '../style/pageStyle/Write.module.scss';
-require('dotenv').config();
 
-const serverURL = process.env.SERVER_URL;
+const serverURL = require('../config.json').SERVER_URL;
 
 function Edit() {
     const { postNum } = useParams();
