@@ -42,7 +42,7 @@ function App() {
                     {/* <div className='user'><img src={(headerInfo.profileImg === undefined) ? "" : `http://lavi-blog.kro.kr:3030/userImg/${headerInfo.profileImg}.webp`}></img>{headerInfo.id}</div> */}
                     <Link to="/">home</Link>
                     <Link to="/write">write</Link>
-                    <a onClick={ signOut }>sign out</a>
+                    <p onClick={ signOut }>sign out</p>
                 </>
             );
         }
