@@ -3,7 +3,7 @@
 react, express, mysql을 이용했으며, CRUD 연습작입니다.
 
 https://lavi-blog.netlify.app/
-
+ 
 ## 페이지 및 기능
 - Main
   - 최근 글 최대 10개 확인
