@@ -27,7 +27,7 @@ jobs:
     
     - run: mv build asdf
     
-    - run: git add /asdf
+    - run: git add ./asdf
     
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
