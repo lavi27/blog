@@ -26,7 +26,6 @@ jobs:
     - run: CI=false npm run build --if-present
     
     - run: mv build asdf
-    - run: rm `ls *|grep -r -v ./asdf`
     
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
@@ -38,7 +37,7 @@ jobs:
         # See the `pathspec`-documentation for git
         # - https://git-scm.com/docs/git-add#Documentation/git-add.txt-ltpathspecgt82308203
         # - https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefpathspecapathspec
-        file_pattern: 'asdf/*'
+        file_pattern: 'asdf/*.js'
 
         # Optional commit user and author settings
 #         commit_user_name: My GitHub Actions Bot # defaults to "github-actions[bot]"
