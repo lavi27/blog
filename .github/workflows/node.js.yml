@@ -36,7 +36,7 @@ jobs:
         
         commit_options: '--no-verify --signoff'
         status_options: '--untracked-files=no'
-        add_options: '-u'
+        add_options: 'asdf/ -u'
         skip_dirty_check: true  
         skip_fetch: true    
         skip_checkout: true
