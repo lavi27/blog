@@ -37,7 +37,7 @@ jobs:
         # See the `pathspec`-documentation for git
         # - https://git-scm.com/docs/git-add#Documentation/git-add.txt-ltpathspecgt82308203
         # - https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefpathspecapathspec
-        file_pattern: 'asdf/*.js'
+        file_pattern: 'asdf/'
 
         # Optional commit user and author settings
 #         commit_user_name: My GitHub Actions Bot # defaults to "github-actions[bot]"
