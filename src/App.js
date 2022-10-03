@@ -9,7 +9,7 @@ import Post from './pages/Post';
 import Write from './pages/Write';
 import Edit from './pages/Edit';
 import Test from './pages/Test';
-import './style/style.scss';
+import './style/style.scss'; 
 
 function App() {
 return (
