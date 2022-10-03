@@ -26,21 +26,22 @@ jobs:
     - run: CI=false npm run build --if-present
     
     - run: mv build asdf
-    
-    - run: git pull origin build
+
     - run: git add ./asdf
     
-#     - uses: stefanzweifel/git-auto-commit-action@v4
-#       with:
-#         branch: build
-#         create_branch: true
-#         file_pattern: './asdf/'
-#         push_options: '--force'
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        branch: build
+        create_branch: true
+        file_pattern: './asdf/'
+        push_options: '--force'
         
-#         commit_options: '--no-verify --signoff'
-#         status_options: '--untracked-files=no'
-#         add_options: '-u'
-#         skip_dirty_check: true  
-#         skip_fetch: true    
-#         skip_checkout: true
-#         disable_globbing: true
+        commit_options: '--no-verify --signoff'
+        status_options: '--untracked-files=no'
+        add_options: '-u'
+        skip_dirty_check: true  
+        skip_fetch: true    
+        skip_checkout: true
+        disable_globbing: true
+        
+    - run: git pull origin build
